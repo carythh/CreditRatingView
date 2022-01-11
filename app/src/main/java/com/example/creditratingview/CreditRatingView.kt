@@ -80,15 +80,15 @@ class CreditRatingView @JvmOverloads constructor(
                 //线的下面画刻度
                 if(index==0){
                     canvas.drawText(
-                        "${mValue}分",
+                        mValue,
                         margin +0f,
                         (height / 2f + 50),
                         mRatingValuePaint
                     )
                 }else if(index==(mRatingValueList.size-1)){
                     canvas.drawText(
-                        "${mValue}分",
-                        mWidth - getTextWidth("${mValue}分")*2+margin,
+                        mValue,
+                        mWidth - getTextWidth(mValue)*2+margin,
                         (height / 2f + 50),
                         mRatingValuePaint
                     )
@@ -105,8 +105,8 @@ class CreditRatingView @JvmOverloads constructor(
                     )
                 }else{
                     canvas.drawText(
-                        "${mValue}分",
-                        margin +totalmWidthList - getTextWidth("${mValue}分"),
+                        mValue,
+                        margin +totalmWidthList - getTextWidth(mValue),
                         (height / 2f + 50),
                         mRatingValuePaint
                     )
@@ -123,26 +123,25 @@ class CreditRatingView @JvmOverloads constructor(
                     )
                 }
 
-                //画线
-                val mLinearGradient = LinearGradient(
-                    0f,
-                    0f,
-                    mRatingValueWidth,
-                    0f,
-                    Color.parseColor("#FFD09D"),
-                    Color.parseColor("#F7562E"),
-                    Shader.TileMode.CLAMP
-                )
-                mLinePaint.shader = mLinearGradient
-                canvas.drawLine(
-                    margin +0f,
-                    (height / 2f),
-                    margin+totalmWidthList,
-                    (height / 2f),
-                    mLinePaint
-                )
-
             }
+            //画线
+            val mLinearGradient = LinearGradient(
+                0f,
+                0f,
+                totalmWidthList,
+                0f,
+                Color.parseColor("#FFD09D"),
+                Color.parseColor("#F7562E"),
+                Shader.TileMode.CLAMP
+            )
+            mLinePaint.shader = mLinearGradient
+            canvas.drawLine(
+                margin +0f,
+                (height / 2f),
+                margin+totalmWidthList,
+                (height / 2f),
+                mLinePaint
+            )
         }
         canvas?.let {
             var totalmWidthList =0f
