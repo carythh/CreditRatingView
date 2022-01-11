@@ -11,13 +11,13 @@ import android.view.View
  */
 
 class CreditRatingView @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null
+    context: Context, attrs: AttributeSet? = null
 ) : View(context, attrs) {
     private val mLinePaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val mRatingValuePaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val mRatingNamePaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val mDivideLinePaint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private var mRatingValueList = listOf<Int>()
+    private var mRatingValueList = listOf<String>()
     private var mRatingNameList = listOf<String>()
     private var mWidthList = mutableListOf<Float>()
     private var mWidthRetaList = listOf<Float>()
@@ -45,13 +45,14 @@ class CreditRatingView @JvmOverloads constructor(
             style = Paint.Style.FILL
             isAntiAlias = true
         }
-        mRatingValueList = listOf(0, 60, 70, 80, 90, 100) //刻度值
+        mRatingValueList = listOf("0分", "60分", "70分", "80分", "90分", "100分") //刻度值
         mRatingNameList= listOf("D", "C", "B", "A","S") //等级名称
         mWidthRetaList= listOf(0.3f, 0.175f, 0.175f, 0.175f, 0.175f)//分段占比
     }
-    fun refreshData(mRatingValues : List<Int>,mRatingNames : List<Int>){
-        mRatingValueList = listOf(0, 60, 70, 80, 90, 100)
-        mRatingNameList= listOf("D", "C", "B", "A","S")
+    fun refreshData(mRatingValues : List<String>,mRatingNames : List<String>,mWidthRetaList: List<Float> ){
+        this.mRatingValueList =mRatingValues
+        this.mRatingNameList= mRatingNames
+        this.mWidthRetaList =mWidthRetaList
         invalidate()
     }
 
