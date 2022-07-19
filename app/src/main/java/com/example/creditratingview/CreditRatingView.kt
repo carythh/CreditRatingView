@@ -66,9 +66,9 @@ class CreditRatingView @JvmOverloads constructor(
         if(mRatingValueList.isEmpty()){
             return  //空数据
         }
-        var mWidth=width-margin*2 //除去边距
+        val mWidth=width-margin*2 //除去边距
         canvas?.let {
-            var totalmWidthList =0f
+            var totalWidthList =0f
             for ((index, mValue) in mRatingValueList.withIndex()) {
                 //每个等级百分占比
                 var mRatingValueWidth =  0f
@@ -76,51 +76,55 @@ class CreditRatingView @JvmOverloads constructor(
                     mRatingValueWidth =  mWidthRetaList[index-1]*(mWidth)
                     mWidthList.add(mRatingValueWidth)
                 }
-                totalmWidthList += mRatingValueWidth
+                totalWidthList += mRatingValueWidth
                 //线的下面画刻度
-                if(index==0){
-                    canvas.drawText(
-                        mValue,
-                        margin +0f,
-                        (height / 2f + 50),
-                        mRatingValuePaint
-                    )
-                }else if(index==(mRatingValueList.size-1)){
-                    canvas.drawText(
-                        mValue,
-                        mWidth - getTextWidth(mValue)*2+margin,
-                        (height / 2f + 50),
-                        mRatingValuePaint
-                    )
-                    //线的上面画等级名称，画在每段的中间
-                    var mRatingNameWidth=mRatingValueWidth/2f
-                    if(mWidthList.size>1){
-                        mRatingNameWidth=totalmWidthList-mRatingValueWidth+mRatingValueWidth/2f
+                when (index) {
+                    0 -> {
+                        canvas.drawText(
+                            mValue,
+                            margin +0f,
+                            (height / 2f + 50),
+                            mRatingValuePaint
+                        )
                     }
-                    canvas.drawText(
-                        mRatingNameList[index - 1],
-                        margin +mRatingNameWidth- getTextWidth(mRatingNameList[index - 1]),
-                        height / 2f - 30,
-                        mRatingNamePaint
-                    )
-                }else{
-                    canvas.drawText(
-                        mValue,
-                        margin +totalmWidthList - getTextWidth(mValue),
-                        (height / 2f + 50),
-                        mRatingValuePaint
-                    )
-                    //线的上面画等级名称，画在每段的中间
-                    var mRatingNameWidth=mRatingValueWidth/2f
-                    if(mWidthList.size>1){
-                        mRatingNameWidth=totalmWidthList-mRatingValueWidth+mRatingValueWidth/2f
+                    (mRatingValueList.size-1) -> {
+                        canvas.drawText(
+                            mValue,
+                            mWidth - getTextWidth(mValue)*2+margin,
+                            (height / 2f + 50),
+                            mRatingValuePaint
+                        )
+                        //线的上面画等级名称，画在每段的中间
+                        var mRatingNameWidth=mRatingValueWidth/2f
+                        if(mWidthList.size>1){
+                            mRatingNameWidth=totalWidthList-mRatingValueWidth+mRatingValueWidth/2f
+                        }
+                        canvas.drawText(
+                            mRatingNameList[index - 1],
+                            margin +mRatingNameWidth- getTextWidth(mRatingNameList[index - 1]),
+                            height / 2f - 30,
+                            mRatingNamePaint
+                        )
                     }
-                    canvas.drawText(
-                        mRatingNameList[index - 1],
-                        margin +mRatingNameWidth- getTextWidth(mRatingNameList[index - 1]),
-                        height / 2f - 30,
-                        mRatingNamePaint
-                    )
+                    else -> {
+                        canvas.drawText(
+                            mValue,
+                            margin +totalWidthList - getTextWidth(mValue),
+                            (height / 2f + 50),
+                            mRatingValuePaint
+                        )
+                        //线的上面画等级名称，画在每段的中间
+                        var mRatingNameWidth=mRatingValueWidth/2f
+                        if(mWidthList.size>1){
+                            mRatingNameWidth=totalWidthList-mRatingValueWidth+mRatingValueWidth/2f
+                        }
+                        canvas.drawText(
+                            mRatingNameList[index - 1],
+                            margin +mRatingNameWidth- getTextWidth(mRatingNameList[index - 1]),
+                            height / 2f - 30,
+                            mRatingNamePaint
+                        )
+                    }
                 }
 
             }
@@ -128,7 +132,7 @@ class CreditRatingView @JvmOverloads constructor(
             val mLinearGradient = LinearGradient(
                 0f,
                 0f,
-                totalmWidthList,
+                totalWidthList,
                 0f,
                 Color.parseColor("#FFD09D"),
                 Color.parseColor("#F7562E"),
@@ -138,7 +142,7 @@ class CreditRatingView @JvmOverloads constructor(
             canvas.drawLine(
                 margin +0f,
                 (height / 2f),
-                margin+totalmWidthList,
+                margin+totalWidthList,
                 (height / 2f),
                 mLinePaint
             )
@@ -171,7 +175,7 @@ class CreditRatingView @JvmOverloads constructor(
     private fun getTextWidth(text: String?): Float {
         return mRatingValuePaint.measureText(text) / 2
     }
-    fun sp2px(context: Context, spValue: Float): Float {
+    private fun sp2px(context: Context, spValue: Float): Float {
         val fontScale = context.resources.displayMetrics.scaledDensity
         return (spValue * fontScale + 0.5f)
     }
